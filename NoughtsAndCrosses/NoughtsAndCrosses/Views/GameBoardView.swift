@@ -35,6 +35,9 @@ struct GameBoardView: View {
     // Tracks whether game is won or not
     @State var gameWon = false
     
+    // Tracks the result of the game
+    @State var gameEnded = false
+    
     // Tracks the history of prior games played
     @State var history: [GameResult] = []
     
@@ -50,11 +53,11 @@ struct GameBoardView: View {
                 
                 Text("Current player is: \(currentPlayer)")
                 // Only show when game is not over
-                    .opacity(gameWon == false ? 1.0 : 0.0)
+                    .opacity(gameEnded == false ? 1.0 : 0.0)
                 
                 Text("\(currentPlayer) wins!")
                 // Only show when game IS over
-                    .opacity(gameWon == true ? 1.0 : 0.0)
+                    .opacity(gameEnded == true ? 1.0 : 0.0)
             }
             .padding(.vertical)
 
@@ -111,7 +114,7 @@ struct GameBoardView: View {
                 
                 Text("Current turn is: \(currentTurn)")
                     // Only show when game is not over
-                    .opacity(gameWon == false ? 1.0 : 0.0)
+                    .opacity(gameEnded == false ? 1.0 : 0.0)
                 
                 Button(action: {
                     resetGame()
@@ -119,7 +122,7 @@ struct GameBoardView: View {
                     Text("New Game")
                 })
                 // Only show when game IS over
-                .opacity(gameWon == true ? 1.0 : 0.0)
+                .opacity(gameEnded == true ? 1.0 : 0.0)
                 
             }
             .padding(.vertical)
@@ -203,6 +206,9 @@ struct GameBoardView: View {
                 gameWon = true
                 print("Game won by \(currentPlayer)...")
                 
+                // Game has ended
+                gameEnded = true
+                
                 // Save the result
                 saveResult()
                 
@@ -213,6 +219,9 @@ struct GameBoardView: View {
                 
                 // Game has ended in a draw
                 gameWon = false
+                
+                // Game has ended
+                gameEnded = true
                 
                 // Save the result
                 saveResult()
