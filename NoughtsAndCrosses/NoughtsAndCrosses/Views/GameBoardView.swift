@@ -209,6 +209,17 @@ struct GameBoardView: View {
                 // End function now
                 return
                 
+            } else if currentTurn > 9 {
+                
+                // Game has ended in a draw
+                gameWon = false
+                
+                // Save the result
+                saveResult()
+                
+                // End function now
+                return
+                
             }
             
         }
