@@ -38,6 +38,9 @@ struct GameBoardView: View {
     // Tracks the result of the game
     @State var gameEnded = false
     
+    // Tracks whether the game was drawn or not
+    @State var gameIsDrawn = false
+    
     // Tracks the history of prior games played
     @State var history: [GameResult] = []
     
@@ -57,7 +60,7 @@ struct GameBoardView: View {
                 
                 Text("\(currentPlayer) wins!")
                 // Only show when game IS over
-                    .opacity(gameEnded == true ? 1.0 : 0.0)
+                    .opacity(gameIsDrawn == false ? 1.0 : 0.0)
             }
             .padding(.vertical)
 
@@ -209,6 +212,9 @@ struct GameBoardView: View {
                 // Game has ended
                 gameEnded = true
                 
+                // Game has a winner
+                gameIsDrawn = false
+                
                 // Save the result
                 saveResult()
                 
@@ -222,6 +228,9 @@ struct GameBoardView: View {
                 
                 // Game has ended
                 gameEnded = true
+                
+                // Game is drawn
+                gameIsDrawn = true
                 
                 // Save the result
                 saveResult()
@@ -286,8 +295,11 @@ struct GameBoardView: View {
         bottomMiddle = empty
         bottomRight = empty
         
-        // New game, has not been won
-        gameWon = false
+        // New game, has not been ended
+        gameEnded = false
+        
+        // New game, no winner
+        gameIsDrawn = true
         
         // Start at first turn
         currentTurn = 1
